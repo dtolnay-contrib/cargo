@@ -134,19 +134,7 @@ pub trait CommandExt: Sized {
         self._arg(flag(default_mode, "").value_parser(value_parser).hide(true))
     }
 
-    fn arg_targets_all(
-        self,
-        lib: &'static str,
-        bin: &'static str,
-        bins: &'static str,
-        example: &'static str,
-        examples: &'static str,
-        test: &'static str,
-        tests: &'static str,
-        bench: &'static str,
-        benches: &'static str,
-        all: &'static str,
-    ) -> Self {
+    fn arg_targets_all(self, desc: TargetSelectionDescriptions) -> Self {
         self.arg_targets_lib_bin_example(lib, bin, bins, example, examples)
             ._arg(flag("tests", tests).help_heading(heading::TARGET_SELECTION))
             ._arg(optional_multi_opt("test", "NAME", test).help_heading(heading::TARGET_SELECTION))
@@ -1008,4 +996,17 @@ pub enum CommandInfo {
     BuiltIn { about: Option<String> },
     External { path: PathBuf },
     Alias { target: StringOrVec },
+}
+
+pub struct TargetSelectionDescriptions {
+    pub lib: &'static str,
+    pub bin: &'static str,
+    pub bins: &'static str,
+    pub example: &'static str,
+    pub examples: &'static str,
+    pub test: &'static str,
+    pub tests: &'static str,
+    pub bench: &'static str,
+    pub benches: &'static str,
+    pub all: &'static str,
 }
